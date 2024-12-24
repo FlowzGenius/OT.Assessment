@@ -17,7 +17,7 @@ public sealed class ProcessWagerCommandHandler(ApplicationDbContext applicationD
                 UserName = request.Username,
             };
 
-            await applicationDbContext.Player.AddAsync(player);
+            await applicationDbContext.Player.AddAsync(player, cancellationToken);
         }
 
         var wager = new Wager()
@@ -31,9 +31,9 @@ public sealed class ProcessWagerCommandHandler(ApplicationDbContext applicationD
             PlayerAccountId = request.AccountId
         };
 
-        await applicationDbContext.Wager.AddAsync(wager);
+        await applicationDbContext.Wager.AddAsync(wager, cancellationToken);
 
-        await applicationDbContext.SaveChangesAsync();
+        await applicationDbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<bool> PlayerExistsAsync(Guid playerId)

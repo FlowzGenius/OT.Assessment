@@ -46,7 +46,7 @@ namespace OT.Assessment.App.Controllers
         [Route("/api/player/topSpenders")]
         public async Task<ActionResult> LoadTopSpenders([FromQuery] int count, CancellationToken cancellationToken)
         {
-            var response = await mediator.Send(new LoadTopSpendersQuery() { Count = count});
+            var response = await mediator.Send(new LoadTopSpendersQuery() { Count = count}, cancellationToken);
 
             return Ok(response);
         }
