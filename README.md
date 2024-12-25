@@ -1,4 +1,7 @@
 # Online Betting Data Capture and Analytics System
+# Test Results
+![image](https://github.com/user-attachments/assets/905daa45-f189-4fa0-9912-e3d40e866662)
+
 
 ## Scenario
 In the dynamic world of online betting, capturing and analyzing data is paramount for business success. Every time a player initiates a spin in a casino game, it's essential to capture and store relevant data. This project aims to develop an API and service capable of receiving, storing, and retrieving player casino data.
