@@ -16,6 +16,72 @@ namespace OT.Assessment.Unit.Tests
             _sut = new ProcessWagerCommandValidator();
         }
 
+        [Test]
+        public async Task Will_Throw_Error_If_WagerId_Is_Not_Set()
+        {
+            //Arrange
+            var wager = new Faker<ProcessWagerCommand>()
+                .StrictMode(false)
+                .RuleFor(o => o.AccountId, f => f.Random.Guid())
+                .RuleFor(o => o.Theme, f => f.PickRandom(themes))
+                .RuleFor(o => o.Provider, f => f.Company.CompanyName())
+                .RuleFor(o => o.GameName, f => f.Company.CompanyName())
+                .RuleFor(o => o.Username, f => f.Person.FirstName)
+                .RuleFor(o => o.CreationDate, DateTime.UtcNow)
+                .RuleFor(o => o.Amount, f => f.Random.Decimal())
+                .Generate();
+
+            //Act
+            var result = await _sut.TestValidateAsync(wager);
+
+            //Assert
+            result.ShouldHaveValidationErrorFor(x => x.WagerId);
+        }
+
+        [Test]
+        public async Task Will_Throw_Error_If_AccountId_Is_Not_Set()
+        {
+            //Arrange
+            var wager = new Faker<ProcessWagerCommand>()
+                .StrictMode(false)
+                .RuleFor(o => o.WagerId, f => f.Random.Guid())
+                .RuleFor(o => o.Theme, f => f.PickRandom(themes))
+                .RuleFor(o => o.Provider, f => f.Company.CompanyName())
+                .RuleFor(o => o.GameName, f => f.Company.CompanyName())
+                .RuleFor(o => o.Username, f => f.Person.FirstName)
+                .RuleFor(o => o.CreationDate, DateTime.UtcNow)
+                .RuleFor(o => o.Amount, f => f.Random.Decimal())
+                .Generate();
+
+            //Act
+            var result = await _sut.TestValidateAsync(wager);
+
+            //Assert
+            result.ShouldHaveValidationErrorFor(x => x.AccountId);
+        }
+
+        [Test]
+        public async Task Will_Throw_Error_If_Amount_Is_Not_Set()
+        {
+            //Arrange
+            var wager = new Faker<ProcessWagerCommand>()
+                .StrictMode(false)
+                .RuleFor(o => o.WagerId, f => f.Random.Guid())
+                .RuleFor(o => o.AccountId, f => f.Random.Guid())
+                .RuleFor(o => o.Theme, f => f.PickRandom(themes))
+                .RuleFor(o => o.Provider, f => f.Company.CompanyName())
+                .RuleFor(o => o.GameName, f => f.Company.CompanyName())
+                .RuleFor(o => o.Username, f => f.Person.FirstName)
+                .RuleFor(o => o.CreationDate, DateTime.UtcNow)
+                .Generate();
+
+            //Act
+            var result = await _sut.TestValidateAsync(wager);
+
+            //Assert
+            result.ShouldHaveValidationErrorFor(x => x.Amount);
+        }
+
         [TestCase(" ")]
         [TestCase("")]
         [TestCase(null)]
