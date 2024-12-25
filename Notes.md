@@ -6,3 +6,6 @@ command and query request models.
 I faced some challenges with setting up RabbitMq (It was my first time using it). I initially tried to install it on my machine and the install kept failing but docker
 came to the rescue! I created and ran a docker compose file and everything worked. I decided to go with a library called MassTransit to publish and consume messages
 from rabbitmq, it's easy to setup and it does all the heavy lifting for you.
+
+# Test Results
+![image](https://github.com/user-attachments/assets/905daa45-f189-4fa0-9912-e3d40e866662)
