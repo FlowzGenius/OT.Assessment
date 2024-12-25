@@ -14,7 +14,6 @@ namespace OT.Assessment.Unit.Tests
         {
             var services = new ServiceCollection();
 
-            // Using In-Memory database for testing
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseInMemoryDatabase("TestDb"));
 

@@ -2,6 +2,7 @@
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using OT.Assessment.Consumer;
+using OT.Assessment.Core;
 using OT.Assessment.Core.Commands.ProcessWager;
 using OT.Assessment.Infrastructure;
 
@@ -29,9 +30,12 @@ var host = Host.CreateDefaultBuilder(args)
                 cfg.ConfigureEndpoints(context);
             });
         });
-        services.AddSingleton(TimeProvider.System);
         services.AddValidatorsFromAssemblyContaining<ProcessWagerCommandValidator>();
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ProcessWagerCommand).Assembly));
+        services.AddMediatR(cfg => 
+        { 
+            cfg.RegisterServicesFromAssembly(typeof(ProcessWagerCommand).Assembly);
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+        });
         services.AddStorage(context.Configuration);
     })
     .Build();

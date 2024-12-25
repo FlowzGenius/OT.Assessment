@@ -4,7 +4,7 @@ using OT.Assessment.Infrastructure.Context;
 using OT.Assessment.Infrastructure.Entities;
 
 namespace OT.Assessment.Core.Commands.ProcessWager;
-public sealed class ProcessWagerCommandHandler(ApplicationDbContext applicationDbContext, TimeProvider timeProvider) 
+public sealed class ProcessWagerCommandHandler(ApplicationDbContext applicationDbContext) 
     : IRequestHandler<ProcessWagerCommand>
 {
     public async Task Handle(ProcessWagerCommand request, CancellationToken cancellationToken)
@@ -27,7 +27,7 @@ public sealed class ProcessWagerCommandHandler(ApplicationDbContext applicationD
             Provider = request.Provider,
             GameName = request.GameName,
             Amount = request.Amount,
-            CreationDate = timeProvider.GetUtcNow().DateTime,
+            CreationDate = request.CreationDate,
             PlayerAccountId = request.AccountId
         };
 

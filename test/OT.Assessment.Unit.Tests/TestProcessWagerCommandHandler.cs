@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Time.Testing;
 using NUnit.Framework;
 using OT.Assessment.Core.Commands.ProcessWager;
 using OT.Assessment.Infrastructure.Context;
@@ -12,15 +11,13 @@ namespace OT.Assessment.Unit.Tests
     {
         private ProcessWagerCommandHandler _sut;
         private ApplicationDbContext _context;
-        private FakeTimeProvider _timeProvider;
         private string[] themes = { "ancient", "adventure", "wildlife", "jungle", "retro", "family", "crash" };
 
         [SetUp]
         public void TestProcessWagerCommandHandlerSetUp()
         {
             _context = _serviceProvider.GetService<ApplicationDbContext>()!;
-            _timeProvider = new FakeTimeProvider();
-            _sut = new ProcessWagerCommandHandler(_context, _timeProvider);
+            _sut = new ProcessWagerCommandHandler(_context);
         }
 
         [Test]
@@ -35,7 +32,7 @@ namespace OT.Assessment.Unit.Tests
                 .RuleFor(o => o.Provider, f => f.Company.CompanyName())
                 .RuleFor(o => o.GameName, f => f.Company.CompanyName())
                 .RuleFor(o => o.Username, f => f.Person.FirstName)
-                .RuleFor(o => o.CreationDate, _timeProvider.GetUtcNow().DateTime)
+                .RuleFor(o => o.CreationDate, DateTime.UtcNow)
                 .RuleFor(o => o.Amount, f => f.Random.Decimal())
                 .Generate();
 
@@ -69,7 +66,7 @@ namespace OT.Assessment.Unit.Tests
                 .RuleFor(o => o.Provider, f => f.Company.CompanyName())
                 .RuleFor(o => o.GameName, f => f.Company.CompanyName())
                 .RuleFor(o => o.Username, f => f.Person.FirstName)
-                .RuleFor(o => o.CreationDate, _timeProvider.GetUtcNow().DateTime)
+                .RuleFor(o => o.CreationDate, DateTime.UtcNow)
                 .RuleFor(o => o.Amount, f => f.Random.Decimal())
                 .Generate();
 

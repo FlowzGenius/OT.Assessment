@@ -18,7 +18,8 @@ namespace OT.Assessment.Consumer
                 GameName = casinoWager.GameName,
                 Amount = (decimal)casinoWager.Amount,
                 AccountId = Guid.Parse(casinoWager.AccountId),
-                Username = casinoWager.Username
+                Username = casinoWager.Username,
+                CreationDate = casinoWager.CreatedDateTime
             };
 
            await mediator.Send(processWagerCommand);
