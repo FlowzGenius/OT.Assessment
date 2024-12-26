@@ -5,10 +5,11 @@ using OT.Assessment.Messaging.Models;
 
 namespace OT.Assessment.Consumer
 {
-    public class WagerEventConsumer(IMediator mediator) : IConsumer<CasinoWagerEvent>
+    public class WagerEventConsumer(IMediator mediator, ILogger<WagerEventConsumer> logger) : IConsumer<CasinoWagerEvent>
     {
         public async Task Consume(ConsumeContext<CasinoWagerEvent> context)
         {
+            
             var casinoWager = context.Message;
             var processWagerCommand = new ProcessWagerCommand()
             {
@@ -22,7 +23,8 @@ namespace OT.Assessment.Consumer
                 CreationDate = casinoWager.CreatedDateTime
             };
 
-           await mediator.Send(processWagerCommand);
+            logger.LogInformation("Processing wager event with id: {wagerId}", casinoWager.WagerId);
+            await mediator.Send(processWagerCommand);
         }
     }
 }
