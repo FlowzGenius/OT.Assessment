@@ -1,14 +1,13 @@
 ﻿using Bogus;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using OT.Assessment.Core.Commands.ProcessWager;
 using OT.Assessment.Infrastructure.Context;
 
 namespace OT.Assessment.Unit.Tests
 {
-    public class TestProcessWagerCommandHandler : TestBase
+    public partial class TestProcessWagerCommandHandler : TestBase
     {
         private ProcessWagerCommandHandler _sut;
         private ApplicationDbContext _context;
@@ -18,7 +17,7 @@ namespace OT.Assessment.Unit.Tests
         public void TestProcessWagerCommandHandlerSetUp()
         {
             _context = _serviceProvider.GetService<ApplicationDbContext>()!;
-            _sut = new ProcessWagerCommandHandler(_context, new FakeLogger());
+            _sut = new ProcessWagerCommandHandler(_context, new FakeLogger<ProcessWagerCommandHandler>());
         }
 
         [Test]
@@ -87,24 +86,6 @@ namespace OT.Assessment.Unit.Tests
         {
             _context.Database.EnsureDeleted();
             _context.Dispose();
-        }
-
-        public class FakeLogger : ILogger<ProcessWagerCommandHandler>
-        {
-            public IDisposable? BeginScope<TState>(TState state) where TState : notnull
-            {
-                return null;
-            }
-
-            public bool IsEnabled(LogLevel logLevel)
-            {
-                return true;
-            }
-
-            public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
-            {
-                
-            }
         }
     }
 }
