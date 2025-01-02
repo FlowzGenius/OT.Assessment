@@ -18,7 +18,6 @@ namespace OT.Assessment.Core.Queries.LoadPlayerWagers
                 var skip = (request.Page - 1) * request.PageSize;
 
                 var result = players.Where(x => x.PlayerAccountId == request.PlayerId)
-                    .AsNoTracking()
                     .Skip(skip)
                     .Take(request.PageSize)
                     .Select(x => new LoadPlayerWagersResponse
